@@ -1,0 +1,47 @@
+* {
+    border: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.container {
+    height: 300px;
+    width: 300px;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, 100px);
+    margin: 150px auto;
+}
+
+.box {
+    height: 100px;
+    width: 100px;
+    border: 1px solid black;
+}
+
+.box-1:hover {
+    background-color: black;
+}
+.box-2:hover {
+    background-color: red;
+}
+.box-3:hover {
+    background-color: pink;
+}
+.box-4:hover {
+    background-color: yellow;
+}
+.box-5:hover {
+    background-color: blue;
+}
+.box-6:hover {
+    background-color: indianred;
+}
+.box-7:hover {
+    background-color: purple;
+}
+.box-8:hover {
+    background-color: green;
+}
+.box-9:hover {
+    background-color: gray;
+}
