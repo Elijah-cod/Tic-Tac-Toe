@@ -16,32 +16,65 @@
     height: 100px;
     width: 100px;
     border: 1px solid black;
+    font-size: 32px; /* Enlarge the font size */
+    text-align: center; /* Center the text horizontally */
 }
 
-.box-1:hover {
-    background-color: black;
+
+/* Add styles for the winner display and selection buttons */
+.winner-display {
+    text-align: center;
+    background-color: #f7f7f7;
+    padding: 20px;
+    display: none;
 }
-.box-2:hover {
-    background-color: red;
+
+.selection {
+    text-align: center;
+    margin-top: 20px;
 }
-.box-3:hover {
-    background-color: pink;
+
+.selection h2 {
+    font-size: 18px;
 }
-.box-4:hover {
-    background-color: yellow;
+
+.selection button {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: white;
+    border: none;
 }
-.box-5:hover {
-    background-color: blue;
+
+.selection button:hover {
+    background-color: #2980b9;
 }
-.box-6:hover {
-    background-color: indianred;
+
+/* Add styles for the options */
+.options {
+    text-align: center;
+    margin-top: 20px;
 }
-.box-7:hover {
-    background-color: purple;
+
+.options button {
+    font-size: 16px;
+    padding: 10px 20px;
+    margin: 10px;
+    cursor: pointer;
+    background-color: #3498db;
+    color: white;
+    border: none;
 }
-.box-8:hover {
-    background-color: green;
+
+.options button:hover {
+    background-color: #2980b9;
 }
-.box-9:hover {
-    background-color: gray;
+
+/* Center-align the "Restart Game" button */
+#restartGame {
+    display: block;
+    margin: 20px auto;
 }
+
