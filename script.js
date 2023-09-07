@@ -141,6 +141,9 @@ function resetGame() {
     });
     document.querySelector('.selection').style.display = 'block';
     document.querySelector('.winner-display').style.display = 'none';
+    document.getElementById('playAgainstPlayer').style.display = 'none';
+    document.getElementById('playAgainstComputer').style.display = 'none';
+
 }
 
 // Function to make a random computer move
@@ -175,6 +178,7 @@ document.getElementById('playAgainstComputer').addEventListener('click', () => {
 
     // Hide other options
     document.getElementById('playAgainstPlayer').style.display = 'none';
+    document.getElementById('playAgainstComputer').style.display = 'none';
     document.querySelector('.selection').style.display = 'none';
 
     // Show the "Restart Game" button
@@ -190,6 +194,7 @@ document.getElementById('playAgainstPlayer').addEventListener('click', () => {
     document.getElementById('selectO').disabled = false;
 
     // Hide other options
+    document.getElementById('playAgainstPlayer').style.display = 'none';
     document.getElementById('playAgainstComputer').style.display = 'none';
     document.querySelector('.selection').style.display = 'block';
 
@@ -206,6 +211,13 @@ restartGameButton.addEventListener('click', () => {
     resetGame();
     document.getElementById('winnerText').textContent = "";
     document.querySelector('.winner-display').style.display = 'none';
+
+    // Displaying the various playing options
+    document.getElementById('playAgainstPlayer').style.display = 'inline';
+    document.getElementById('playAgainstComputer').style.display = 'inline';
+    document.querySelector('.selection').style.display = 'block';
+
+
 
     // If playing against the computer and it's the computer's turn, make the computer's move
     if (againstComputer && currentPlayer === 'O') {
