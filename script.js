@@ -46,10 +46,15 @@ function checkWinner() {
     for (let combination of winningCombination) {
         const [a, b, c] = combination;
         if (gameBoard[a] && gameBoard[a] === gameBoard[b] && gameBoard[a] === gameBoard[c]) {
-            return combination; // Return the winning combination
+            return gameBoard[a]; // Return the winning player's symbol ('X' or 'O')
         }
     }
-    return null; // No winner
+
+    if (!gameBoard.includes("")) {
+        return 'tie'; // It's a tie if there are no empty boxes left
+    }
+
+    return null; // No winner yet
 }
 
 // Function to handle box click
@@ -64,18 +69,25 @@ function handleBoxClick(event) {
         // Update the game state
         gameBoard[boxIndex] = currentPlayer;
 
-        // Check if there is a winner
-        const winningCombination = checkWinner();
-        if (winningCombination) {
-            highlightWinningCombination(winningCombination);
+        
+        // Check if there is a winner after a move
+        const winner = checkWinner();
 
-            // Display the winner announcement
+        if (winner) {
             const winnerDisplay = document.querySelector('.winner-display');
             const winnerText = document.getElementById('winnerText');
-            winnerText.textContent = `Player ${currentPlayer} wins!`;
-            winnerDisplay.style.display = 'block';
 
-            // Disable further moves
+            if (againstComputer) {
+                if (winner === 'X') {
+                    winnerText.textContent = 'Player wins!';
+                } else {
+                    winnerText.textContent = 'Computer wins!';
+                }
+            } else {
+                winnerText.textContent = `Player ${winner} wins!`;
+            }
+
+            winnerDisplay.style.display = 'block';
             gameStarted = false;
             return;
         }
@@ -146,25 +158,91 @@ function resetGame() {
 
 }
 
-// Function to make a random computer move
-function makeComputerMove() {
-    if (gameStarted && currentPlayer === 'O') {
-        // Find empty boxes
-        const emptyBoxes = gameBoard.reduce((acc, value, index) => {
-            if (value === "") {
-                acc.push(index);
+// Function to evaluate the minimax value for a given board state
+function minimax(board, depth, isMaximizing) {
+    const scores = {
+        X: -1,
+        O: 1,
+        tie: 0
+    };
+
+    if (checkWinner() === 'X') {
+        return scores.X - depth;
+    } else if (checkWinner() === 'O') {
+        return scores.O + depth;
+    } else if (!gameBoard.includes("")) {
+        return scores.tie;
+    }
+
+    if (isMaximizing) {
+        let bestScore = -Infinity;
+        for (let i = 0; i < 9; i++) {
+            if (board[i] === "") {
+                board[i] = 'O';
+                const score = minimax(board, depth + 1, false);
+                board[i] = "";
+                bestScore = Math.max(score, bestScore);
             }
-            return acc;
-        }, []);
-
-        // Randomly select an empty box
-        const randomIndex = Math.floor(Math.random() * emptyBoxes.length);
-        const computerMoveIndex = emptyBoxes[randomIndex];
-
-        // Simulate a click on the selected box
-        boxes[computerMoveIndex].click();
+        }
+        return bestScore;
+    } else {
+        let bestScore = Infinity;
+        for (let i = 0; i < 9; i++) {
+            if (board[i] === "") {
+                board[i] = 'X';
+                const score = minimax(board, depth + 1, true);
+                board[i] = "";
+                bestScore = Math.min(score, bestScore);
+            }
+        }
+        return bestScore;
     }
 }
+
+// Function to make the computer's move using the minimax algorithm
+function makeComputerMove() {
+    if (gameStarted && currentPlayer === 'O') {
+        let bestScore = -Infinity;
+        let move;
+
+        for (let i = 0; i < 9; i++) {
+            if (gameBoard[i] === "") {
+                gameBoard[i] = 'O';
+                const score = minimax(gameBoard, 0, false);
+                gameBoard[i] = "";
+
+                if (score > bestScore) {
+                    bestScore = score;
+                    move = i;
+                }
+            }
+        }
+
+        boxes[move].click();
+    }
+}
+
+// // Function to make a random computer move
+
+// function makeComputerMove() {
+
+//     if (gameStarted && currentPlayer === 'O') {
+//         // Find empty boxes
+//         const emptyBoxes = gameBoard.reduce((acc, value, index) => {
+//             if (value === "") {
+//                 acc.push(index);
+//             }
+//             return acc;
+//         }, []);
+
+//         // Randomly select an empty box
+//         const randomIndex = Math.floor(Math.random() * emptyBoxes.length);
+//         const computerMoveIndex = emptyBoxes[randomIndex];
+
+//         // Simulate a click on the selected box
+//         boxes[computerMoveIndex].click();
+//     }
+// }
 
 // Hide the "Restart Game" button initially
 const restartGameButton = document.getElementById('restartGame');
